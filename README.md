@@ -64,14 +64,4 @@ Execute o `ETW-Patcher.exe` via linha de comando, passando o número do comando 
 
 ---
 
-## 💌 Contato
-
-**Caso queira me contatar ou precise de algum serviço, me encontre nas seguintes plataformas:**
-
-**Usuário do Discord: 4wj.**
-
-**Instagram: @glowwz9**
-
-**E-mail: vliyanie1337@proton.me**
-
 
