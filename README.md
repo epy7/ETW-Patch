@@ -1,6 +1,6 @@
 # 🚀 ETW-Patcher: Trampoline Evasion Toolkit (AMSI/ETW/Sysmon)
 
-Welcome to **ETW-Patcher**! This is a PoC (Proof of Concept) in C++ that uses the powerful **Trampoline Hooking** technique to disable or check the most common detection mechanisms in Windows.
+Welcome to **ETW-Patch**! This is a PoC (Proof of Concept) in C++ that uses the powerful **Trampoline Hooking** technique to disable or check the most common detection mechanisms in Windows.
 
 Specifically, it targets:
 - **AMSI** (Antimalware Scan Interface)
