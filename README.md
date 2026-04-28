@@ -1,61 +1,61 @@
 # 🚀 ETW-Patcher: Trampoline Evasion Toolkit (AMSI/ETW/Sysmon)
 
-Bem-vindo ao **ETW-Patcher**! Esta é uma PoC (Proof of Concept) em C++ que utiliza a poderosa técnica de **Trampoline Hooking** para desativar ou verificar as funcionalidades de detecção mais comuns no Windows.
+Welcome to **ETW-Patcher**! This is a PoC (Proof of Concept) in C++ that uses the powerful **Trampoline Hooking** technique to disable or check the most common detection mechanisms in Windows.
 
-Especificamente, ela visa:
--   **AMSI** (Antimalware Scan Interface)
--   **ETW** (Event Tracing for Windows)
--   **NtTraceEvent** (comumente usado para monitoramento, como o Sysmon)
+Specifically, it targets:
+- **AMSI** (Antimalware Scan Interface)
+- **ETW** (Event Tracing for Windows)
+- **NtTraceEvent** (commonly used for monitoring, such as Sysmon)
 
-> ⚠️ **Disclaimer:** Esta ferramenta é estritamente para **fins de pesquisa** em segurança ofensiva e defesa. O uso em ambientes não autorizados é ilegal e antiético. Use com responsabilidade.
-
----
-
-## 💡 Sobre o Trampoline Hooking
-
-O Trampoline Hooking é uma técnica de *in-process hooking* onde a execução de uma função é desviada.
-
-1.  O **prólogo** (os primeiros 12 bytes) da função alvo é copiado para uma **nova área de memória** alocada, o **Trampoline**.
-2.  Um `JMP` de retorno é adicionado ao Trampoline, apontando para a instrução original logo após o patch.
-3.  O início da função alvo é substituído por um **único `JMP`** de 5 bytes, redirecionando o fluxo de execução para o **Trampoline**.
-
-**Nota sobre a Evasão:** No estado atual, o patch altera o alvo para sempre saltar para o Trampoline, o que **interrompe a execução normal da função alvo** (ex: `AmsiScanBuffer`), resultando em uma desativação da detecção.
+> ⚠️ **Disclaimer:** This tool is strictly for **research purposes** in offensive and defensive security. Use in unauthorized environments is illegal and unethical. Use responsibly.
 
 ---
 
-## ✨ Comandos de Execução
+## 💡 About Trampoline Hooking
 
-Execute o `ETW-Patcher.exe` via linha de comando, passando o número do comando desejado:
+Trampoline Hooking is an *in-process hooking* technique where the execution of a function is redirected.
 
-| Comando | Descrição | Funções Alvo |
+1. The **prologue** (the first 12 bytes) of the target function is copied to a **newly allocated memory area**, the **Trampoline**.
+2. A return `JMP` is added to the Trampoline, pointing to the original instruction right after the patch.
+3. The beginning of the target function is replaced with a **single 5-byte `JMP`**, redirecting execution flow to the **Trampoline**.
+
+**Note on Evasion:** In its current state, the patch modifies the target to always jump to the Trampoline, which **interrupts the normal execution of the target function** (e.g., `AmsiScanBuffer`), resulting in detection being disabled.
+
+---
+
+## ✨ Execution Commands
+
+Run `ETW-Patcher.exe` from the command line, passing the desired command number:
+
+| Command | Description | Target Functions |
 | :---: | :--- | :--- |
-| **0** | **ALL** (Padrão) | Aplica o patch em **AMSI**, **ETW** e **NtTraceEvent** simultaneamente. |
-| **1** | **AMSI** | Aplica o patch em `AmsiScanBuffer` (amsi.dll). |
-| **2** | **ETW** | Aplica o patch em `EtwEventWrite` (ntdll.dll). |
-| **3** | **SYSMON** | Aplica o patch em `NtTraceEvent` (ntdll.dll). |
-| **4** | **CHECK** | Verifica se as funções acima estão com o patch aplicado. (Procura por `0xE9` - o opcode do JMP relativo - no primeiro byte). |
+| **0** | **ALL** (Default) | Applies the patch to **AMSI**, **ETW**, and **NtTraceEvent** simultaneously. |
+| **1** | **AMSI** | Applies the patch to `AmsiScanBuffer` (amsi.dll). |
+| **2** | **ETW** | Applies the patch to `EtwEventWrite` (ntdll.dll). |
+| **3** | **SYSMON** | Applies the patch to `NtTraceEvent` (ntdll.dll). |
+| **4** | **CHECK** | Checks whether the above functions are patched (looks for `0xE9` — the relative JMP opcode — in the first byte). |
 
-### Exemplo de Uso
+### Usage Example
 
 ```bash
-# Patch de Evasão Completo
+# Full Evasion Patch
 .\ETW-Patcher.exe 0
 
-# Apenas Desativar o AMSI
+# Disable AMSI only
 .\ETW-Patcher.exe 1
 
-# Apenas Desativar o ETW
+# Disable ETW only
 .\ETW-Patcher.exe 2
 
-# Apenas Desativar o NtTraceEvent ( Sysmon )
+# Disable NtTraceEvent only (Sysmon)
 .\ETW-Patcher.exe 3
 
-# Verificar o status (antes ou depois do patch)
+# Check status (before or after patching)
 .\ETW-Patcher.exe 4
 ```
 ---
 
-## 🖼️ Imagens de exemplo  
+## 🖼️ Image Examples
 
 ![image](https://raw.githubusercontent.com/137f/ETW-Patcher/refs/heads/main/ETW-Patcher/Images/0.png)  
 ![image](https://raw.githubusercontent.com/137f/ETW-Patcher/refs/heads/main/ETW-Patcher/Images/1.png)  
